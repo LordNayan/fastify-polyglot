@@ -1,0 +1,20 @@
+checklist:
+
+repo_name: beliven-it/fastify-polyglot
+
+main code file path and content: i18n.js
+
+new_version: i18n.js
+
+context file path and content: NA
+
+instruction: very big instruction 
+Model_response_screenshot: https://drive.google.com/file/d/17eajL4_43jBhFgTLfNI2vBxczk4Yk_GW/view?usp=sharing
+
+docker_image: 
+
+unit_tests: i18n.test.js
+
+language: JavaScript
+
+screenshot: https://drive.google.com/file/d/16PCZO2Qn98YfCgL6TKj7iaCamlLL7gUU/view?usp=sharing

@@ -1,3 +1,4 @@
+// golden response 
 'use strict'
 
 const path = require('path')
@@ -32,7 +33,7 @@ module.exports = fp(function (fastify, opts, next) {
       })
       .reduce((locales, entry) => {
         const name = entry.name.replace(/\.[^/.]+$/, '')
-        const pathname = path.join(basepath, name)
+        const pathname = path.join(basepath, entry.name)
         locales[name] = require(pathname)
         return locales
       }, {})
@@ -56,6 +57,7 @@ module.exports = fp(function (fastify, opts, next) {
 
   if (Object.keys(locales).indexOf(defaultLocale) === -1) {
     next(new Error(ERR_MISSING_DICTIONARY_FOR_DEFAULT_LOCALE))
+    return
   }
 
   const i18n = new Polyglot({
@@ -65,6 +67,17 @@ module.exports = fp(function (fastify, opts, next) {
 
   i18n.locales = locales
   i18n.defaultLocale = defaultLocale
+
+  // Add locale fallback feature
+  i18n.t = (key, opts = {}) => {
+   // i18n.js
+const { locale } = opts;
+if (locale && i18n.locales[locale]) {
+  return i18n.locales[locale][key] || (defaultLocale && i18n.locales[defaultLocale] && i18n.locales[defaultLocale][key]) || key;
+}
+return i18n.locales[defaultLocale] && i18n.locales[defaultLocale][key] || key;
+
+  }
 
   fastify.decorate('i18n', i18n)
 

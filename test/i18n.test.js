@@ -145,3 +145,8 @@ t.test('fastify-polyglot', async t => {
   });
 })
 
+// Assertions explanation:
+
+// Translation in Provided Locale: Check that the key 'hi' is correctly translated to 'Ciao' when the locale is set to 'it'.
+// Fallback for Missing Key: Verify that if a key ('nonexistent_key') is not present in the specified locale ('it'), the key itself is returned (indicating no translation found).
+// Fallback to Default Locale: Ensure that if a key ('world') is missing in the current locale, it falls back to the default locale ('en') and provides the correct translation ('World').
