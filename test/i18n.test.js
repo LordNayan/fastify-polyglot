@@ -109,4 +109,39 @@ t.test('fastify-polyglot', async t => {
       t.error(err, 'should not throw any error')
     }
   })
+
+  t.test('locale fallback functionality', async t => {
+    t.plan(3);
+    
+    const fastify = buildFastify(t);
+    
+    try {
+      await fastify.register(require('../i18n'), {
+        localesPath: path.join(__dirname, './locales'),
+        defaultLocale: 'en',
+        locales: {
+          en: {
+            world: 'World'  // Ensure 'world' is defined in the English locale
+          },
+          it: {
+            hi: 'Ciao'
+          }
+        }
+      });
+  
+      // Check if translation works with the provided locale
+      t.equal(fastify.i18n.t('hi', { locale: 'it' }), 'Ciao', 'should translate using locale it');
+      
+      // Check if fallback works when key is not present in the provided locale
+      t.equal(fastify.i18n.t('nonexistent_key', { locale: 'it' }), 'nonexistent_key', 'should fall back to key if translation not found');
+  
+      // Check if fallback to default locale works
+      t.equal(fastify.i18n.t('world'), 'World', 'should use default locale if key is missing in provided locales');
+  
+    } catch (err) {
+      console.error(err);
+      t.error(err, 'should not throw any error');
+    }
+  });
 })
+
